@@ -1,0 +1,24 @@
+*{ /* CSS reset */
+     margin: 0;
+     border: 0;
+     padding: 0;
+     outline: 0;
+     line-height: 1;
+     list-style: none;
+     text-decoration: none;
+     box-sizing: border-box;
+}
+:root{ /* Variáveis */
+
+     /* Cores primárias */
+     --primary-color-black: #000000;
+     --primary-color-white: #FFFFFF;
+     --primary-color-orange: #F25221;
+     
+     /* cores secundárias */
+     --secondary-color-orange-dark: #BC3E16;
+
+     /* Fontes */
+     --open-sans: 'Open Sans', sans-serif;
+
+}
