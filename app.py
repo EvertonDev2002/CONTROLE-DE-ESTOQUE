@@ -1,6 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for
+#from flask_migrate import Migrate
+#from models import db, Users, Products
 
 app = Flask(__name__)
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://<user>:<password>@<endress>:5432/<database>"
+
+#db.init_app(app)
+
+#migrate = Migrate(app, db)
 
 @app.route('/login')
 def Login():
