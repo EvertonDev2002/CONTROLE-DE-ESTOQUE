@@ -1,23 +1,48 @@
-from flask import Flask, render_template, request, url_for
-#from flask_migrate import Migrate
-#from models import db, Users, Products
+from flask import Flask, render_template, \
+     request, url_for, session, redirect, abort
+from flask_migrate import Migrate
+from models import db, Users, Products
+from config.env import env
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://<user>:<password>@<endress>:5432/<database>"
+app.config['SQLALCHEMY_DATABASE_URI'] = env["URI"]
+app.secret_key = env["KEY"]
 
-#db.init_app(app)
+db.init_app(app)
+migrate = Migrate(app, db)
 
-#migrate = Migrate(app, db)
-
-@app.route('/login')
+@app.route('/')
 def Login():
-     pass
+     if 'id' in session:
+          return redirect(url_for("ListProducts"))
+
+     return render_template("index.html")
+
+@app.route("/check_login", methods=["POST"])
+def CheckLogin():
+     if request.method == 'POST':
+          user = Users.query.filter_by(cpf=request.form['cpf']).first()
+          if user:
+               if user.password == request.form['password']:
+                    session['id'] = user.id
+                    return redirect(url_for("ListProducts"))
+          else:
+              return redirect(url_for("Login"))
+     return redirect(url_for("Login"))
+
+@app.route('/logout')
+def Logout():
+     session.pop('id', None)
+     return  redirect(url_for("Login"))
 
 """ CRUD do produto"""
 
-@app.route('/')
+@app.route('/list_products')
 def ListProducts():
-     return render_template("index.html")
+     if 'id' in session:
+           return render_template("list_products.html")
+     return redirect(url_for("Login"))
+
 
 @app.route('/delete_products')
 def DeleteProducts():
@@ -52,4 +77,4 @@ def UpdateSeller():
 
 
 if __name__ == '__main__':
-     app.run()
+     app.run(debug=True)
