@@ -1,21 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head lang="pt-BR">
-     <meta charset='utf-8'>
-     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-     <title>Login</title>
-     <meta name='viewport' content='width=device-width, initial-scale=1'>
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-     <link rel='stylesheet' type='text/css' media='screen' href="{{url_for('static', filename='css/list_products.css')}}">
-     <script src="{{url_for('static', filename='js/main.js')}}"></script>
-     <script src="https://kit.fontawesome.com/8544c965ee.js" crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lista de Produtos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen"
+    href="{{url_for('static', filename='css/list_products.css')}}" />
+  <script src="{{url_for('static', filename='js/main.js')}}"></script>
+  <script src="https://kit.fontawesome.com/8544c965ee.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<section class="content">
-
-   
-</section> 
+  <section>
+    <header>
+      <img src="# " />
+      {% if session['cargo'] != "vendedor" %}
+      <nav>
+        <ul>
+          <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
+          <li><a href="/insert_products">CADASTRAR PRODUTO</a></li>
+          <li><a href="/insert_seller">CADASTRAR VENDEDOR</a></li>
+          <li><a href="/delete_products">REMOVER PRODUTO</a></li>
+        </ul>
+      </nav>
+      {% endif %}
+      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+    </header>
+    <main>
+      <div>
+        <div class="container-search">
+          <div>
+            <h1>Consultar estoque</h1>
+            <form action="/list_products" method="get">
+              <div>
+                <label class="fa-solid fa-magnifying-glass" for="search"></label>
+                <input type="text" name="search" id="search" placeholder="Pesquisar" />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="filtro">
+          <span>Filtros</span>
+          <div>
+            <span>SEÇÃO</span>
+            <div>
+              <a href="/list_products?filter=masculino">MASCULINO</a>
+              <a href="/list_products?filter=feminino">FEMININO</a>
+              <a href="/list_products?filter=infantil">INFANTIL</a>
+            </div>
+          </div>
+          <div>
+            <span>TAMANHO</span>
+            <div>
+              <a href="/list_products?filter=m">M</a>
+              <a href="/list_products?filter=g">G</a>
+              <a href="/list_products?filter=p">P</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/sell_products" method="POST" class="table">
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Tamanho</th>
+                <th>Quantidade</th>
+                <th>Seção</th>
+                <th>Preço de venda</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in product %}
+              <tr>
+                <td>
+                  <input name="sell_products" value="{{p.id}}" type="checkbox" />
+                </td>
+                <td>{{p.id}}</td>
+                <td>{{p.title}}</td>
+                <td>{{p.size}}</td>
+                <td>{{p.quantity}}</td>
+                <td>{{p.category}}</td>
+                <td>{{p.price}}</td>
+                <td>{{p.description}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="button-area">
+          <button>Vender</button>
+        </div>
+      </form>
+    </main>
+  </section>
 </body>
 </html>

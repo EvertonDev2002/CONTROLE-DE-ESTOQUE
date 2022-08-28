@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head lang="pt-BR">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Cadastrar Produto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen"
+    href="{{url_for('static', filename='css/insert_products.css')}}" />
+  <script src="{{url_for('static', filename='js/main.js')}}"></script>
+  <script src="https://kit.fontawesome.com/8544c965ee.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <section>
+    <header>
+      <img src="# "/>
+      <nav>
+        <ul>
+          <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
+          <li><a href="/insert_products">CADASTRAR PRODUTO</a></li>
+          <li><a href="/insert_seller">CADASTRAR VENDEDOR</a></li>
+          <li><a href="/delete_products">REMOVER PRODUTO</a></li>
+        </ul>
+      </nav>
+      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+    </header>
+    <main>
+      <h1>Cadastrar produto</h1>
+      <form action="--" method="post">
+        <div>
+          <label for="">Nome do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Código do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Tamanho do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Quantidade do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Categoria do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Preço do produto</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label for="">Descrição do produto</label>
+          <input type="text" />
+        </div>
+        <button>CADASTRAR</button>
+      </form>
+    </main>
+  </section>
+</body>
+</html>

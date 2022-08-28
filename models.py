@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cpf = db.Column(db.String(), nullable=False)
@@ -10,6 +11,7 @@ class Users(db.Model):
     name = db.Column(db.String(), nullable=False)
     e_mail = db.Column(db.String(), nullable=False)
     phone_number = db.Column(db.String(), nullable=False)
+
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)

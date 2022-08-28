@@ -1,58 +1,64 @@
 @import "reset.css";
 @import "variables.css";
 
-.content{
-     width: 100vw;
-     height: 100vh;
-     display: flex;
-     align-items: center;
-     justify-content: center;     
-     background-color: var(--primary-color-white);
-}
-.content form{
-     width: 25rem;
-     padding: 2em;
-     display: flex;
-     height: 20rem;
-     align-items: center;
-     border-radius: 0.5em;
-     flex-direction: column;
-     border: solid #000000 2px;
-     background-color: #FBC1B0;
-}
-.content form legend{
-     font-weight: 600;
-     margin-bottom: 2em;
-     font-family: var(--open-sans);
-}
-.content form div{
-     width: 13rem;
-     height: 2.5rem;
-     padding-left: 0.5em;
-     margin-bottom: 0.5em;
-     border-radius: 0.5em;
-     border: solid #000000 1px;
-     background-color: #D8CFCC;
-
-}
-.content form input{
-     width: 90%;
-     height: 100%;
-     padding-left: 1em;
-     border-radius: 0.5em;
-     background-color: #D8CFCC;
-     color: var(--primary-color-black);
-}
-.content form input::placeholder{
-     color: var(--primary-color-black);
+section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color-white);
 }
 
-.content form button{
-     width: 13rem;
-     height: 2.5rem;
-     cursor:  pointer;
-     font-weight: 600;
-     border-radius: 0.5em;
-     border: solid #000000 1px;
-     background-color: var(--primary-color-orange);
+section form {
+  width: 30rem;
+  padding: 2em;
+  display: flex;
+  height: 25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5em;
+  flex-direction: column;
+  background-color: #f0e9e7;
+}
+
+section form legend {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+  font-family: var(--open-sans);
+}
+
+section form div {
+  width: 13rem;
+  height: 2.5rem;
+  padding-left: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 0.5em;
+  border: solid #000000 1px;
+  background-color: var(--primary-color-white);
+}
+
+section form input {
+  width: 90%;
+  height: 100%;
+  padding-left: 1em;
+  border-radius: 0.5em;
+  background-color: var(--primary-color-white);
+  color: var(--primary-color-black);
+}
+
+section form input::placeholder {
+  color: var(--primary-color-black);
+}
+
+section form button {
+  width: 13rem;
+  height: 2.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 0.5em;
+  text-transform: uppercase;
+  border: solid #000000 1px;
+  background-color: var(--primary-color-orange);
 }
