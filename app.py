@@ -1,17 +1,15 @@
 from flask import Flask, render_template, request, url_for, session, redirect
-from models import db, Users, Products
+from models import db, User, Product
 from flask_migrate import Migrate
 from config.env import env
 from sqlalchemy import or_
 
-
 app = Flask(__name__)
 app.secret_key = env["KEY"]
-app.config['SQLALCHEMY_DATABASE_URI'] = env["URI"]
+app.config['SQLALCHEMY_DATABASE_URI'] = env["HEROKU"]
 
 db.init_app(app)
 migrate = Migrate(app, db)
-
 
 @app.route('/')
 def Login():
@@ -24,7 +22,7 @@ def Login():
 @app.route("/check_login", methods=["POST"])
 def CheckLogin():
     if request.method == 'POST':
-        user = Users.query.filter_by(cpf=request.form['cpf']).first()
+        user = User.query.filter_by(cpf=request.form['cpf']).first()
         if user:
             if user.password == request.form['password']:
                 session['id'] = user.id
@@ -51,8 +49,8 @@ def ListProducts():
         if "search" in request.args:
             search = f"%{request.args.get('search')}%".upper()
 
-            product = Products.query.filter(or_(Products.description.like(
-                search), Products.title.like(search), Products.category.like(search)))
+            product = Product.query.filter(or_(Product.description.like(
+                search), Product.title.like(search), Product.category.like(search)))
             return render_template("list_products.html", product=product)
 
         elif "filter" in request.args:
@@ -62,14 +60,14 @@ def ListProducts():
             category_filter = ['MASCULINO', 'FEMININO', 'INFANTIL']
 
             if filter in category_filter:
-                product = Products.query.filter_by(category=filter).all()
+                product = Product.query.filter_by(category=filter).all()
 
             elif filter in size_filter:
-                product = Products.query.filter_by(size=filter).all()
+                product = Product.query.filter_by(size=filter).all()
 
             return render_template("list_products.html", product=product)
         else:
-            product = Products.query.order_by(Products.id).all()
+            product = Product.query.order_by(Product.id).all()
             return render_template("list_products.html", product=product)
 
     return redirect(url_for("Login"))
@@ -79,7 +77,7 @@ def ListProducts():
 def SellProdutos():
     if request.method == "POST":
         for id in request.form.getlist('sell_products'):
-            produtos = Products.query.get(id)
+            produtos = Product.query.get(id)
             if int(produtos.quantity) != 0:
                 produtos.quantity -= 1
                 db.session.commit()
@@ -89,40 +87,32 @@ def SellProdutos():
 
 @app.route('/delete_products', methods=["GET", "DELETE"])
 def DeleteProducts():
-    if 'id' in session and session['cargo'] != "vendedor":
+    if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         return render_template("delete_products.html")
     return redirect(url_for("Login"))
 
-
 @app.route('/insert_products', methods=["GET", "POST"])
 def InsertProducts():
-    if 'id' in session and session['cargo'] != "vendedor":
-        return render_template("insert_products.html")
+    if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
+        if request.method == "POST":
+            product = Product(title=request.form['title'], size=request.form['size'], quantity=request.form['quantity'], category=request.form['category'], sale_price=request.form['price'], description=request.form['description'])
+            db.session.add(product)
+            db.session.commit()
+        else:
+            return render_template("insert_products.html")
     return redirect(url_for("Login"))
-
 
 """ CRUD do vendedor """
 
-
 @app.route('/insert_seller', methods=["GET", "POST"])
 def InsertSeller():
-    if 'id' in session and session['cargo'] != "vendedor":
+    if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
+        if request.method == "POST":
+            vendedor = User(cpf = request.form['cpf'], password = request.form['password'], roles = 'vendedor', name = request.form['name'], e_mail = request.form['e_mail'], phone_number = request.form['phone_number'])
+            db.session.add(vendedor)
+            db.session.commit()
         return render_template("insert_seller.html")
     return redirect(url_for("Login"))
-
-
-""" @app.route('/delete_seller')
-def DeleteSeller():
-     pass
-
-@app.route('/list_seller')    
-def ListSeller():
-     pass
-
-@app.route('/update_seller')
-def UpdateSeller():
-     pass """
-
 
 if __name__ == '__main__':
     app.run(debug=True)

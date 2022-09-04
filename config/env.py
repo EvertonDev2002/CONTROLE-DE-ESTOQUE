@@ -6,4 +6,5 @@ load_dotenv()
 env = {
     "URI": getenv("URI"),
     "KEY": getenv("KEY"),
+    "HEROKU": getenv("DATABASE_URL"),
 }

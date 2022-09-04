@@ -45,21 +45,26 @@
           </div>
         </div>
         <div class="filtro">
-          <span>Filtros</span>
-          <div>
-            <span>SEÇÃO</span>
-            <div>
-              <a href="/list_products?filter=masculino">MASCULINO</a>
-              <a href="/list_products?filter=feminino">FEMININO</a>
-              <a href="/list_products?filter=infantil">INFANTIL</a>
-            </div>
+          <div class="block-top">
+            <span>Filtros</span>
+            <a href="list_products">Limpar</a>
           </div>
-          <div>
-            <span>TAMANHO</span>
+          <div class="block">
             <div>
-              <a href="/list_products?filter=m">M</a>
-              <a href="/list_products?filter=g">G</a>
-              <a href="/list_products?filter=p">P</a>
+              <span>SEÇÃO</span>
+              <div>
+                <a href="/list_products?filter=masculino">MASCULINO</a>
+                <a href="/list_products?filter=feminino">FEMININO</a>
+                <a href="/list_products?filter=infantil">INFANTIL</a>
+              </div>
+            </div>
+            <div>
+              <span>TAMANHO</span>
+              <div>
+                <a href="/list_products?filter=p">P</a>
+                <a href="/list_products?filter=m">M</a>
+                <a href="/list_products?filter=g">G</a>
+              </div>
             </div>
           </div>
         </div>
@@ -75,6 +80,7 @@
                 <th>Tamanho</th>
                 <th>Quantidade</th>
                 <th>Seção</th>
+                <th>Preço de compra</th>
                 <th>Preço de venda</th>
                 <th>Descrição</th>
               </tr>
@@ -90,7 +96,8 @@
                 <td>{{p.size}}</td>
                 <td>{{p.quantity}}</td>
                 <td>{{p.category}}</td>
-                <td>{{p.price}}</td>
+                <td>{{p.purchase_price}}</td>
+                <td>{{p.sale_price}}</td>
                 <td>{{p.description}}</td>
               </tr>
               {% endfor %}

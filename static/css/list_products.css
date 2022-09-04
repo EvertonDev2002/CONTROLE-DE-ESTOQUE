@@ -12,7 +12,6 @@ header {
   width: 100%;
   height: 10%;
   display: flex;
-
   align-items: center;
   justify-content: space-around;
   background-color: var(--primary-color-orange);
@@ -108,26 +107,30 @@ main .filtro {
   border-radius: 1em;
   background-color: #f0e9e7;
   grid-template-rows: 1.5fr 2fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+main .filtro .block-top{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 main .filtro > span:nth-child(1){
   font-size: 1.5rem;
 }
-main .filtro div {
-  gap: 1em;
-  display: grid;
-  grid-row: 2/2;
-  justify-items: start;
+main .filtro .block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-main .filtro div > span{
+main .filtro .block > span{
   font-size: 0.9rem;
 }
-main .filtro div > div {
+main .filtro .block > div > div {
   display: flex;
   flex-direction: row;
 }
 
-main .filtro div > div > a{
+main .filtro .block > div > div > a{
   width: 7.5em;
   color: black;
   padding: 0.9em;

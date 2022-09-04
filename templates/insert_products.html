@@ -31,34 +31,34 @@
     </header>
     <main>
       <h1>Cadastrar produto</h1>
-      <form action="--" method="post">
+      <form action="/insert_products" method="post">
         <div>
           <label for="">Nome do produto</label>
-          <input type="text" />
-        </div>
-        <div>
-          <label for="">Código do produto</label>
-          <input type="text" />
+          <input name="title" type="text" />
         </div>
         <div>
           <label for="">Tamanho do produto</label>
-          <input type="text" />
+          <input name="size" type="text" />
         </div>
         <div>
           <label for="">Quantidade do produto</label>
-          <input type="text" />
+          <input name="quantity" type="text" />
+        </div>
+            <div>
+          <label for="">Preço de compra</label>
+          <input name="quantity" type="text" />
         </div>
         <div>
           <label for="">Categoria do produto</label>
-          <input type="text" />
+          <input name="category" type="text" />
         </div>
         <div>
-          <label for="">Preço do produto</label>
-          <input type="text" />
+          <label for="">Preço de venda</label>
+          <input name="price" type="text" />
         </div>
         <div>
           <label for="">Descrição do produto</label>
-          <input type="text" />
+          <input name="description" type="text" />
         </div>
         <button>CADASTRAR</button>
       </form>
