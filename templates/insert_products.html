@@ -18,7 +18,8 @@
 <body>
   <section>
     <header>
-      <img src="# "/>
+      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      {% if session['cargo'] != ['gerente', 'administrador'] %}
       <nav>
         <ul>
           <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
@@ -27,34 +28,47 @@
           <li><a href="/delete_products">REMOVER PRODUTO</a></li>
         </ul>
       </nav>
-      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      {% endif %}
+      <div class="fa-solid fa-right-from-bracket">
+        <a href="/logout'">Sair</a>
+      </div>
     </header>
     <main>
       <h1>Cadastrar produto</h1>
       <form action="/insert_products" method="post">
         <div>
-          <label for="">Nome do produto</label>
-          <input name="title" type="text" />
+          <label for="title">Nome do produto</label>
+          <input name="title" id="title" type="text" />
         </div>
         <div>
-          <label for="">Tamanho do produto</label>
-          <input name="size" type="text" />
+          <label for="size">Tamanho do produto</label>
+          <select name="size" id="size">
+            <option></option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+          </select>
         </div>
         <div>
-          <label for="">Quantidade do produto</label>
-          <input name="quantity" type="text" />
+          <label for="quantity">Quantidade do produto</label>
+          <input name="quantity" type="number" id="quantity" />
         </div>
             <div>
-          <label for="">Preço de compra</label>
-          <input name="quantity" type="text" />
+          <label for="purchase_price">Preço de compra</label>
+          <input name="purchase_price" id="purchase_price" type="number" />
         </div>
         <div>
-          <label for="">Categoria do produto</label>
-          <input name="category" type="text" />
+          <label for="category">Secão do produto</label>
+          <select name="category" id="category">
+            <option></option>
+            <option value="MASCULINO">MASCULINO</option>
+            <option value="FEMININO">FEMININO</option>
+            <option value="INFANTIL">INFANTIL</option>
+          </select>
         </div>
         <div>
-          <label for="">Preço de venda</label>
-          <input name="price" type="text" />
+          <label for="price">Preço de venda</label>
+          <input name="price" type="number" id="price"/>
         </div>
         <div>
           <label for="">Descrição do produto</label>

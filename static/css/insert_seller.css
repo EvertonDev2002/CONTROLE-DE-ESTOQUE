@@ -32,20 +32,33 @@ header nav ul {
   align-items: center;
   justify-content: space-evenly;
 }
-header nav ul li {
+
+header nav ul li a {
   font-weight: 600;
   color: var(--primary-color-white);
 }
-header img:first-child {
-  width: 3.5em;
-  border-radius: 100%;
-  background-color: grey;
-}
-header img:last-child {
+
+header img {
   width: 15rem;
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
+  background-repeat: no-repeat;
+}
+
+header>div:last-child {
+  display: flex;
+  cursor: pointer;
+  font-size: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color-white);
+}
+
+header>div:last-child>a {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: 0.5em;
+  color: var(--primary-color-white);
 }
 
 main {

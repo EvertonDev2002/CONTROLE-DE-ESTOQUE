@@ -18,7 +18,8 @@
 <body>
   <section>
     <header>
-      <img src="# "/>
+      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      {% if session['cargo'] != ['gerente', 'administrador'] %}
       <nav>
         <ul>
           <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
@@ -27,7 +28,10 @@
           <li><a href="/delete_products">REMOVER PRODUTO</a></li>
         </ul>
       </nav>
-      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      {% endif %}
+      <div class="fa-solid fa-right-from-bracket">
+        <a href="/logout'">Sair</a>
+      </div>
     </header>
     <main>
       <h1>CADASTRAR VENDEDOR</h1>

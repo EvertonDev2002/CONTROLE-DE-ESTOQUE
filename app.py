@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = env["HEROKU"]
 db.init_app(app)
 migrate = Migrate(app, db)
 
+
 @app.route('/')
 def Login():
     if 'id' in session:
@@ -55,14 +56,12 @@ def ListProducts():
 
         elif "filter" in request.args:
 
-            size_filter = ['M', 'G', 'P']
             filter = str(request.args.get('filter')).upper()
-            category_filter = ['MASCULINO', 'FEMININO', 'INFANTIL']
 
-            if filter in category_filter:
+            if filter in ['MASCULINO', 'FEMININO', 'INFANTIL']:
                 product = Product.query.filter_by(category=filter).all()
 
-            elif filter in size_filter:
+            elif filter in ['M', 'G', 'P']:
                 product = Product.query.filter_by(size=filter).all()
 
             return render_template("list_products.html", product=product)
@@ -85,34 +84,40 @@ def SellProdutos():
     return redirect(url_for("Login"))
 
 
-@app.route('/delete_products', methods=["GET", "DELETE"])
+@app.route('/delete_products', methods=["GET", "POST"])
 def DeleteProducts():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         return render_template("delete_products.html")
     return redirect(url_for("Login"))
 
+
 @app.route('/insert_products', methods=["GET", "POST"])
 def InsertProducts():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
-            product = Product(title=request.form['title'], size=request.form['size'], quantity=request.form['quantity'], category=request.form['category'], sale_price=request.form['price'], description=request.form['description'])
+            product = Product(title=request.form['title'], size=request.form['size'], quantity=request.form['quantity'], category=request.form['category'],
+                              sale_price=request.form['price'], description=request.form['description'], purchase_price=request.form['purchase_price'])
             db.session.add(product)
             db.session.commit()
         else:
             return render_template("insert_products.html")
     return redirect(url_for("Login"))
 
+
 """ CRUD do vendedor """
+
 
 @app.route('/insert_seller', methods=["GET", "POST"])
 def InsertSeller():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
-            vendedor = User(cpf = request.form['cpf'], password = request.form['password'], roles = 'vendedor', name = request.form['name'], e_mail = request.form['e_mail'], phone_number = request.form['phone_number'])
+            vendedor = User(cpf=request.form['cpf'], password=request.form['password'], roles='vendedor',
+                            name=request.form['name'], e_mail=request.form['e_mail'], phone_number=request.form['phone_number'])
             db.session.add(vendedor)
             db.session.commit()
         return render_template("insert_seller.html")
     return redirect(url_for("Login"))
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

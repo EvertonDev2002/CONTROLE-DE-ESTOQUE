@@ -18,8 +18,8 @@
 <body>
   <section>
     <header>
-      <img src="# " />
-      {% if session['cargo'] != "vendedor" %}
+      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      {% if session['cargo'] != ['gerente', 'administrador'] %}
       <nav>
         <ul>
           <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
@@ -29,10 +29,12 @@
         </ul>
       </nav>
       {% endif %}
-      <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
+      <div class="fa-solid fa-right-from-bracket">
+        <a href="/logout'">Sair</a>
+      </div>
     </header>
     <main>
-      <div>
+      <div class="margin">
         <div class="container-search">
           <div>
             <h1>Consultar estoque</h1>
