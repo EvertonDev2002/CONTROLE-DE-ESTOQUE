@@ -96,8 +96,19 @@ def DeleteProducts():
 def InsertProducts():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
-            product = Product(title=request.form['title'], size=request.form['size'], quantity=request.form['quantity'], category=request.form['category'],
-                              sale_price=request.form['price'], description=request.form['description'], purchase_price=request.form['purchase_price'])
+
+            dicts = {
+                'title': str(request.form['title']).upper(),
+                'size': str(request.form['size']).upper(),
+                'quantity': int(request.form['quantity']),
+                'category': str(request.form['category']).upper(),
+                'sale_price': float(request.form['price']),
+                'description': str(request.form['description']).upper(),
+                'purchase_price': float(request.form['purchase_price']),
+            }
+
+            product = Product(title=dicts['title'], size=dicts['size'], quantity=dicts['quantity'], category=dicts['category'],
+                              sale_price=dicts['sale_price'], description=dicts['description'], purchase_price=dicts['purchase_price'])
             db.session.add(product)
             db.session.commit()
         else:
@@ -121,5 +132,4 @@ def InsertSeller():
 
 
 if __name__ == '__main__':
-    db.create_all()
     app.run()

@@ -22,5 +22,5 @@ class Product(db.Model):
     purchase_price = db.Column(db.Float, nullable=False)
     sale_price = db.Column(db.Float, nullable=False)
     description = db.Column(db.String(), nullable=False)
-    trash = db.Column(db.Integer, nullable=False)
-    removal = db.Column(db.String(), nullable=False)
+    trash = db.Column(db.Integer, nullable=True)
+    removal = db.Column(db.String(), nullable=True)
