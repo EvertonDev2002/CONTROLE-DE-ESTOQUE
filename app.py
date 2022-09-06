@@ -6,7 +6,7 @@ from sqlalchemy import or_
 
 app = Flask(__name__)
 app.secret_key = env["KEY"]
-app.config['SQLALCHEMY_DATABASE_URI'] = env["HEROKU"]
+app.config['SQLALCHEMY_DATABASE_URI'] = env["URI"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -21,14 +21,18 @@ def Login():
     return render_template("index.html")
 
 
-@app.route("/check_login", methods=["POST"])
+@app.route("/check_login", methods=["GET", "POST"])
 def CheckLogin():
     if request.method == 'POST':
+        
         user = User.query.filter_by(cpf=request.form['cpf']).first()
+        
         if user:
             if user.password == request.form['password']:
+                
                 session['id'] = user.id
                 session['cargo'] = user.roles
+                
                 return redirect(url_for("ListProducts"))
         else:
             return redirect(url_for("Login"))
@@ -49,22 +53,28 @@ def ListProducts():
     if 'id' in session:
 
         if "search" in request.args:
+            
             search = f"%{request.args.get('search')}%".upper()
 
-            product = Product.query.filter(or_(Product.description.like(
-                search), Product.title.like(search), Product.category.like(search)))
+            product = Product.query.filter(
+                or_(
+                    Product.description.like(search), 
+                    Product.title.like(search), 
+                    Product.category.like(search)
+                    )
+                )
+
             return render_template("list_products.html", product=product)
-
         elif "filter" in request.args:
-
+            
             filter = str(request.args.get('filter')).upper()
-
+            
             if filter in ['MASCULINO', 'FEMININO', 'INFANTIL']:
+                
                 product = Product.query.filter_by(category=filter).all()
-
             elif filter in ['M', 'G', 'P']:
+                
                 product = Product.query.filter_by(size=filter).all()
-
             return render_template("list_products.html", product=product)
         else:
             product = Product.query.order_by(Product.id).all()
@@ -77,10 +87,13 @@ def ListProducts():
 def SellProdutos():
     if request.method == "POST":
         for id in request.form.getlist('sell_products'):
+            
             produtos = Product.query.get(id)
+            
             if int(produtos.quantity) != 0:
                 produtos.quantity -= 1
                 db.session.commit()
+                
         return redirect(url_for("ListProducts"))
     return redirect(url_for("Login"))
 
@@ -97,7 +110,7 @@ def InsertProducts():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
 
-            dicts = {
+            dict_product = {
                 'title': str(request.form['title']).upper(),
                 'size': str(request.form['size']).upper(),
                 'quantity': int(request.form['quantity']),
@@ -107,10 +120,19 @@ def InsertProducts():
                 'purchase_price': float(request.form['purchase_price']),
             }
 
-            product = Product(title=dicts['title'], size=dicts['size'], quantity=dicts['quantity'], category=dicts['category'],
-                              sale_price=dicts['sale_price'], description=dicts['description'], purchase_price=dicts['purchase_price'])
+            product = Product(
+                title=dict_product['title'], 
+                size=dict_product['size'],
+                quantity=dict_product['quantity'],
+                category=dict_product['category'],
+                sale_price=dict_product['sale_price'], 
+                description=dict_product['description'], 
+                purchase_price=dict_product['purchase_price']
+                )
+            
             db.session.add(product)
             db.session.commit()
+            
         else:
             return render_template("insert_products.html")
     return redirect(url_for("Login"))
@@ -123,10 +145,28 @@ def InsertProducts():
 def InsertSeller():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
-            vendedor = User(cpf=request.form['cpf'], password=request.form['password'], roles='vendedor',
-                            name=request.form['name'], e_mail=request.form['e_mail'], phone_number=request.form['phone_number'])
-            db.session.add(vendedor)
+            
+            dict_seller ={
+                'CPF': str(request.form['cpf']),
+                'password': str(request.form['password']),
+                'roles':str('vendedor'),
+                'name': str(request.form['name']),
+                'e_mail': str(request.form['e_mail']),
+                'phone_number': str(request.form['phone_number']),
+            }
+            
+            seller = User(
+                cpf=dict_seller['CPF'], 
+                password=dict_seller['password'], 
+                roles=dict_seller['roles'],
+                name=dict_seller['name'], 
+                e_mail= dict_seller['e_mail'], 
+                phone_number=dict_seller['phone_number']
+            )
+            
+            db.session.add(seller)
             db.session.commit()
+            
         return render_template("insert_seller.html")
     return redirect(url_for("Login"))
 
