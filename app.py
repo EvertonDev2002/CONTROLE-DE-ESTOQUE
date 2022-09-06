@@ -6,7 +6,7 @@ from sqlalchemy import or_
 
 app = Flask(__name__)
 app.secret_key = env["KEY"]
-app.config['SQLALCHEMY_DATABASE_URI'] = env["HEROKU"]
+app.config['SQLALCHEMY_DATABASE_URI'] = env["URI"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
