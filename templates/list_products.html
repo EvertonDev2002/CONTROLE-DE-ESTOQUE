@@ -19,7 +19,7 @@
   <section>
     <header>
       <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
-      {% if session['cargo'] != ['gerente', 'administrador'] %}
+      {% if session['cargo'] in ['gerente', 'administrador'] %}
       <nav>
         <ul>
           <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>

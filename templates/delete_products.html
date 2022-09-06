@@ -19,7 +19,7 @@
   <section>
     <header>
       <img src="{{url_for('static', filename='image/logo.png')}}" alt="Logo Include" />
-      {% if session['cargo'] != ['gerente', 'administrador'] %}
+      {% if session['cargo'] in ['gerente', 'administrador'] %}
       <nav>
         <ul>
           <li><a href="/list_products">CONSULTAR ESTOQUE</a></li>
@@ -35,7 +35,7 @@
     </header>
     <main>
       <h1>REMOVER PRODUTO</h1>
-      <form action="/delete_products" method="GET" id="form">
+      <form action="/delete_products" method="POST" id="form">
         <div class="formulario">
             <div><label for="id1">Código do produto</label><input name="id1" type="text" id="id1"></div>
             <div><label for="quantity1">Quantidade</label><input name="quantity1" type="text" id="quantity1"/></div>

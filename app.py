@@ -84,14 +84,14 @@ def ListProducts():
 
 
 @app.route("/sell_products", methods=["GET", "POST"])
-def SellProdutos():
+def SellProduct():
     if request.method == "POST":
         for id in request.form.getlist('sell_products'):
             
-            produtos = Product.query.get(id)
+            product = Product.query.get(id)
             
-            if int(produtos.quantity) != 0:
-                produtos.quantity -= 1
+            if int(product.quantity) != 0:
+                product.quantity -= 1
                 db.session.commit()
                 
         return redirect(url_for("ListProducts"))
@@ -101,6 +101,22 @@ def SellProdutos():
 @app.route('/delete_products', methods=["GET", "POST"])
 def DeleteProducts():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
+        if request.method == "POST":
+            for i in range((len(request.form)//2)+1):
+                form = {
+                'id': f'id{i}',
+                'quantity': f'quantity{i}',
+                'removal': f'removal{i}'    
+                }                  
+                for id in request.form.getlist(form['id']):
+                    for quantity in request.form.getlist(form['quantity']):
+                        for removal in request.form.getlist(form['removal']):
+                            product = Product.query.get(id)
+                            if int(product.quantity) != 0:
+                                product.quantity -= int(quantity)
+                                product.removal = str(removal)
+                                db.session.commit()
+            return redirect(url_for("ListProducts"))
         return render_template("delete_products.html")
     return redirect(url_for("Login"))
 
