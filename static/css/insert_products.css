@@ -1,120 +1,78 @@
 @import "reset.css";
 @import "variables.css";
+@import "menu.css";
 
 section {
   width: 100vw;
+  display: flex;
   height: 100vh;
-  background-color: var(--primary-color-white);
-}
-
-header {
-  width: 100%;
-  height: 10%;
-  display: flex;
   align-items: center;
-  justify-content: space-around;
-  background-color: var(--primary-color-orange);
-}
-
-header nav {
-  width: 90%;
-  height: 100%;
-  display: flex;
-  max-width: 900px;
-  align-items: center;
-  justify-content: center;
-}
-
-header nav ul {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-header nav ul li a {
-  font-weight: 600;
-  color: var(--primary-color-white);
-}
-
-header img {
-  width: 15rem;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-header>div:last-child {
-  display: flex;
-  cursor: pointer;
-  font-size: 1.5rem;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color-white);
-}
-
-header>div:last-child>a {
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-left: 0.5em;
-  color: var(--primary-color-white);
+  flex-direction: column;
+  background-color: var(--primary-color-background);
 }
 
 main {
   width: 90%;
-  padding: 3em 0;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-main h1 {
-  font-size: 2em;
-  margin-bottom: 1em;
-  font-weight: normal;
-  text-transform: uppercase;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--primary-color-background);
 }
 
 main form {
-  padding: 2em;
+  gap: 5em;
+  padding: 5em;
   height: 65vh;
   display: grid;
-  justify-content: center;
-  background-color: #f0e9e7;
-  align-content: space-around;
-  grid-template-rows: 5em 5em;
-  justify-content: space-around;
-  grid-template-columns: 20em 20em;
-}
-
-main form div {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-main form div label {
-  margin-bottom: 1em;
+  position: relative;
+  border-radius: 0.5em;
+  grid-template-rows: 5em 5em 5em;
+  grid-template-columns: 20em 20em 20em;
+  background-color: var(--primary-color-white);
 }
 
 main form div input,
 select {
   width: 90%;
-  height: 3em;
+  height: 50%;
   padding-left: 1em;
   border-radius: 0.5em;
-  border: solid #000000 1px;
   color: var(--primary-color-black);
-  background-color: var(--primary-color-white);
+  background-color: var(--primary-color-background);
+}
+
+main form div select:required:invalid {
+  font-weight: lighter;
+  color: rgb(51, 50, 50);
+}
+
+main form div[value=""][disabled] {
+  display: none;
 }
 
 main form button {
-  width: 90%;
+  left: 71%;
+  width: 20%;
+  bottom: 15%;
   height: 3em;
   border: none;
+  cursor: pointer;
+  font-weight: 600;
   font-size: 1.1em;
   padding: 0.5em 1em;
-  border-radius: 10px;
+  position: absolute;
+  border-radius: 0.5em;
   text-transform: uppercase;
-  background-color: var(--primary-color-orange);
+  color: var(--primary-color-white);
+  background-color: var(--color-green);
+}
+
+main form button:active {
+  transform: scale(0.98);
+}
+
+main form button:hover {
+  box-shadow: -3px 9px 29px -15px rgba(0, 0, 0, 0.42);
 }

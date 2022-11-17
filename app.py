@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, url_for, session, redirect
-from models import db, User, Product
+from models import db, User, Product, Roles, Category, Size, Email, Phone_Number, User_Email, User_Phone_Number
 from flask_migrate import Migrate
 from config.env import env
 from sqlalchemy import or_
+from bcrypt import hashpw, checkpw, gensalt
 
 app = Flask(__name__)
 app.secret_key = env["KEY"]
@@ -24,16 +25,26 @@ def Login():
 @app.route("/check_login", methods=["GET", "POST"])
 def CheckLogin():
     if request.method == 'POST':
-        
-        user = User.query.filter_by(cpf=request.form['cpf']).first()
-        
+
+        user = db.session.query(
+            User.user,
+            User.id,
+            User.password,
+            Roles.roles,
+        ).filter(
+            User.user == request.form['user']
+        ).join(Roles, User.roles_fk == Roles.id).first()
+
         if user:
-            if user.password == request.form['password']:
-                
+            if checkpw(request.form['password'].encode("UTF-8"), user.password.encode("UTF-8")):
+
                 session['id'] = user.id
+                session['user'] = user.user
                 session['cargo'] = user.roles
-                
+
                 return redirect(url_for("ListProducts"))
+            else:
+                return redirect(url_for("Login"))
         else:
             return redirect(url_for("Login"))
     return redirect(url_for("Login"))
@@ -53,31 +64,40 @@ def ListProducts():
     if 'id' in session:
 
         if "search" in request.args:
-            
+
             search = f"%{request.args.get('search')}%".upper()
 
-            product = Product.query.filter(
+            product = db.session.query(
+                Product.title,
+                Product.sale_price,
+                Product.quantity,
+                Product.description,
+                Product.id,
+                Product.purchase_price,
+                Category.category,
+                Size.size
+            ).filter(
                 or_(
-                    Product.description.like(search), 
-                    Product.title.like(search), 
-                    Product.category.like(search)
-                    )
+                    Product.description.like(search),
+                    Product.title.like(search),
+                    Category.category.like(search)
                 )
+            ).join(Category, Product.category_fk == Category.id).join(Size, Product.size_fk == Size.id).all()
 
             return render_template("list_products.html", product=product)
-        elif "filter" in request.args:
-            
-            filter = str(request.args.get('filter')).upper()
-            
-            if filter in ['MASCULINO', 'FEMININO', 'INFANTIL']:
-                
-                product = Product.query.filter_by(category=filter).all()
-            elif filter in ['M', 'G', 'P']:
-                
-                product = Product.query.filter_by(size=filter).all()
-            return render_template("list_products.html", product=product)
         else:
-            product = Product.query.order_by(Product.id).all()
+
+            product = db.session.query(
+                Product.title,
+                Product.sale_price,
+                Product.quantity,
+                Product.description,
+                Product.id,
+                Product.purchase_price,
+                Category.category,
+                Size.size
+            ).join(Category, Product.category_fk == Category.id).join(Size, Product.size_fk == Size.id).all()
+
             return render_template("list_products.html", product=product)
 
     return redirect(url_for("Login"))
@@ -87,13 +107,13 @@ def ListProducts():
 def SellProduct():
     if request.method == "POST":
         for id in request.form.getlist('sell_products'):
-            
+
             product = Product.query.get(id)
-            
+
             if int(product.quantity) != 0:
                 product.quantity -= 1
                 db.session.commit()
-                
+
         return redirect(url_for("ListProducts"))
     return redirect(url_for("Login"))
 
@@ -104,10 +124,10 @@ def DeleteProducts():
         if request.method == "POST":
             for i in range((len(request.form)//2)+1):
                 form = {
-                'id': f'id{i}',
-                'quantity': f'quantity{i}',
-                'removal': f'removal{i}'    
-                }                  
+                    'id': f'id{i}',
+                    'quantity': f'quantity{i}',
+                    'removal': f'removal{i}'
+                }
                 for id in request.form.getlist(form['id']):
                     for quantity in request.form.getlist(form['quantity']):
                         for removal in request.form.getlist(form['removal']):
@@ -128,31 +148,39 @@ def InsertProducts():
 
             dict_product = {
                 'title': str(request.form['title']).upper(),
-                'size': str(request.form['size']).upper(),
+                'size_fk': int(request.form['size']),
                 'quantity': int(request.form['quantity']),
-                'category': str(request.form['category']).upper(),
+                'category_fk': int(request.form['category']),
                 'sale_price': float(request.form['price']),
                 'description': str(request.form['description']).upper(),
                 'purchase_price': float(request.form['purchase_price']),
             }
 
             product = Product(
-                title=dict_product['title'], 
-                size=dict_product['size'],
+                title=dict_product['title'],
+                size_fk=dict_product['size_fk'],
                 quantity=dict_product['quantity'],
-                category=dict_product['category'],
-                sale_price=dict_product['sale_price'], 
-                description=dict_product['description'], 
+                category_fk=dict_product['category_fk'],
+                sale_price=dict_product['sale_price'],
+                description=dict_product['description'],
                 purchase_price=dict_product['purchase_price']
-                )
-            
+            )
+
             db.session.add(product)
             db.session.commit()
-            
+
         else:
-            return render_template("insert_products.html")
+            if request.method == "GET":
+
+                category = Category.query.order_by(Category.category).all()
+                size = Size.query.order_by(Size.size).all()
+
+                return render_template("insert_products.html", category=category, size=size)
     return redirect(url_for("Login"))
 
+@app.route('/update_products', methods=["GET", "POST"])
+def UpdateProducts():
+    return "Em desenvolvimento"
 
 """ CRUD do vendedor """
 
@@ -161,31 +189,62 @@ def InsertProducts():
 def InsertSeller():
     if 'id' in session and session['cargo'] in ['gerente', 'administrador']:
         if request.method == "POST":
-            
-            dict_seller ={
-                'CPF': str(request.form['cpf']),
-                'password': str(request.form['password']),
-                'roles':str('vendedor'),
-                'name': str(request.form['name']),
-                'e_mail': str(request.form['e_mail']),
-                'phone_number': str(request.form['phone_number']),
-            }
-            
-            seller = User(
-                cpf=dict_seller['CPF'], 
-                password=dict_seller['password'], 
-                roles=dict_seller['roles'],
-                name=dict_seller['name'], 
-                e_mail= dict_seller['e_mail'], 
-                phone_number=dict_seller['phone_number']
+
+            email = Email(
+                e_mail=request.form['e_mail']
             )
-            
+            db.session.add(email)
+            db.session.commit()
+
+            phone_number_ = Phone_Number(
+                phone_number=request.form['phone_number']
+            )
+
+            db.session.add(phone_number_, email)
+            db.session.commit()
+
+            email = Email.query.order_by(Email.id.desc()).first()
+            phone_number_ = Phone_Number.query.order_by(
+                Phone_Number.id.desc()).first()
+
+            dict_seller = {
+                'user': str(request.form['user']),
+                'password': hashpw(request.form['password'].encode("utf-8"), gensalt()),
+                'roles_fk': int(3),
+                'e_mail_fk': int(email.id),
+                'phone_number_fk': int(phone_number_.id),
+            }
+
+            seller = User(
+                user=dict_seller['user'],
+                password=dict_seller['password'],
+                roles_fk=dict_seller['roles_fk'],
+            )
+
             db.session.add(seller)
             db.session.commit()
-            
+
+            seller = User.query.order_by(User.id.desc()).first()
+
+            user_email = User_Email(
+                user_fk=seller.id,
+                e_mail_fk=dict_seller['e_mail_fk']
+            )
+
+            db.session.add(user_email)
+            db.session.commit()
+
+            user_phone_number = User_Phone_Number(
+                user_fk=seller.id,
+                phone_number_fk=dict_seller['phone_number_fk']
+            )
+
+            db.session.add(user_phone_number)
+            db.session.commit()
+
         return render_template("insert_seller.html")
     return redirect(url_for("Login"))
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

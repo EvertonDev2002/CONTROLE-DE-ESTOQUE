@@ -7,36 +7,45 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color-white);
+  background-color: var(--primary-color-background);
 }
 
 section form {
-  width: 30rem;
-  padding: 2em;
+  width: 27em;
+  padding: 1em;
+  height: 30em;
   display: flex;
-  height: 25rem;
+  border-radius: 1em;
   align-items: center;
-  justify-content: center;
-  border-radius: 0.5em;
   flex-direction: column;
-  background-color: #f0e9e7;
+  justify-content: space-evenly;
+  background-color: var(--primary-color-white);
+}
+
+section form > .aux {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 section form legend {
-  font-weight: 600;
-  font-size: 1.5rem;
-  margin-bottom: 1em;
-  font-family: var(--open-sans);
+  width: 100%;
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-color-interface);
 }
 
-section form div {
-  width: 13rem;
-  height: 2.5rem;
-  padding-left: 0.5em;
-  margin-bottom: 0.5em;
+section form .aux > div {
+  width: 100%;
+  height: 2.5em;
+  padding-left: 1em;
+  margin-bottom: 1em;
   border-radius: 0.5em;
-  border: solid #000000 1px;
-  background-color: var(--primary-color-white);
+  color: var(--primary-color-interface);
+  background-color: var(--primary-color-background);
 }
 
 section form input {
@@ -44,8 +53,16 @@ section form input {
   height: 100%;
   padding-left: 1em;
   border-radius: 0.5em;
-  background-color: var(--primary-color-white);
   color: var(--primary-color-black);
+  background-color: var(--primary-color-background);
+}
+
+section form .aux div:last-child{
+  font-display: flex;
+}
+
+section form .aux div:last-child input{
+  width: 85%;
 }
 
 section form input::placeholder {
@@ -53,12 +70,20 @@ section form input::placeholder {
 }
 
 section form button {
-  width: 13rem;
-  height: 2.5rem;
+  width: 100%;
+  height: 3em;
   cursor: pointer;
   font-weight: 600;
   border-radius: 0.5em;
   text-transform: uppercase;
-  border: solid #000000 1px;
-  background-color: var(--primary-color-orange);
+  color: var(--primary-color-white);
+  background-color: var(--primary-color-interface);
+}
+
+section form button:active {
+  transform: scale(0.98);
+}
+
+section form button:hover {
+  box-shadow: -3px 9px 29px -15px rgba(0, 0, 0, 0.42);
 }
