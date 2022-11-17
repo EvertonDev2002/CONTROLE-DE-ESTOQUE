@@ -167,6 +167,9 @@ dmypy.json
 # *.iml
 # *.ipr
 
+# Pastas Quaisquer
+code_retirado/*
+
 # CMake
 cmake-build-*/
 
