@@ -1,13 +1,31 @@
-Ativar ambiente
+## Pré-requisitos
+`Python` | `pip`
+## Criar ambiente de desenvolvimento
+Linux
+```
+$ python3 -m venv venv
+```
+Windows
+```
+python -m venv venv
+```
 
-#Ativar venv
-##Linux
-> . venv/bin/activate
+## Ativar ambiente de desenvolvimento
+Linux
+```
+$ source venv/bin/activate
+```
+Windows
+```
+venv/Scripts/activate.bat
+```
 
-##Windows
->venv\Scripts\activate
+## Instalar dependências
+```
+$ pip install -r requirements.txt
+```
 
-#Desativar venv
-> deactivate
-
-Criar arquivo de requerimentos: pip freeze > requirements.txt
+## Download
+```
+$ git clone https://github.com/EvertonDev2002/CONTROLE-DE-ESTOQUE.git 
+```
