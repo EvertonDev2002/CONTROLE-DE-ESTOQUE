@@ -1,0 +1,45 @@
+{% import "partials/head.html" as componets %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{ componets.head("Criar conta", "create-account.css", "passwordText.js") }}
+</head>
+
+<body>
+    <section>
+        <form action="{{url_for('sing_up')}}" method="POST">
+
+            <legend>EdControle</legend>
+            <div class="container-input">
+
+                <div class="fa-solid fa-user">
+                    <input name="user" type="text" required placeholder="Usuário" />
+                </div>
+
+                <div class="fa-solid fa-phone">
+                    <input name="phone_number" type="text" required placeholder="Número de telefone" />
+                </div>
+
+                <div class="fa-solid fa-envelope">
+                    <input name="e_mail" type="email" required placeholder=" E-mail" />
+                </div>
+
+
+                <div class="fa-solid fa-lock">
+                    <input type="password" name="password" required placeholder="Senha" />
+                    <span class="fa-solid fa-eye-slash" onclick="Password()"></span>
+                </div>
+
+            </div>
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <button>Criar conta</button>
+
+        </form>
+    </section>
+
+</body>
+
+</html>

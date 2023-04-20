@@ -1,0 +1,37 @@
+{% import "partials/head.html" as head %}
+{% import "partials/header.html" as header %}
+<!DOCTYPE html>
+<html>
+
+<head lang="pt-BR">
+  {{ head.head("Remover Produto", "delete_products.css", "input.js") }}
+
+<body>
+  <section>
+    {{ header.header(session['user']) }}
+    <main>
+      <form action="/delete_products" method="POST">
+        <div id="field1">
+          <div>
+            <label for="id1"></label>
+            <input required placeholder="Código do produto" name="id1" type="text" id="id1">
+          </div>
+          <div>
+            <label for="quantity1"></label>
+            <input required placeholder="Quantidade" name="quantity1" type="text" id="quantity1" />
+          </div>
+          <div>
+            <label for="removal1"></label>
+            <input required placeholder="Motivo da remoção" name="removal1" type="text" id="removal1" />
+          </div>
+          <button type="button" onclick="AddField()" class="fa-solid fa-plus"></button>
+        </div>
+        <div>
+          <button type="submit">CADASTRAR</button>
+        </div>
+      </form>
+    </main>
+  </section>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+[default]
+SECRET_KEY = 'd8e354ecde4969f888e0d7c7e8bcfae7f600c610e3417261c331c20c989e19af'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:12345678@localhost:5432/ControleDeEstoque'
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+
+
+EXTENSIONS = [
+    'app.blueprints:init_app',
+    'app.extension.commands:init_app',
+    'app.extension.database:init_app',
+    'app.extension.login:init_app'
+]
+
+[development]
+
+[production]

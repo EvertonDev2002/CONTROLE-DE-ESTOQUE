@@ -1,0 +1,79 @@
+{% import "partials/head.html" as head %} {% import "partials/header.html" as
+header %}
+<!DOCTYPE html>
+<html>
+  {{ head.head("Estoque", "list_products.css") }}
+
+  <body>
+    <section>
+      {{ header.header(session['user']) }}
+      <main>
+        <form
+          action="{{url_for('blueprints.sell_product')}}"
+          method="POST"
+          class="table"
+        >
+          <div class="button-area">
+            <a href="{{url_for('blueprints.insert_products')}}">
+              <span class="fa-solid fa-plus"></span>
+              Adicionar
+            </a>
+          </div>
+          <div class="form">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Tamanho</th>
+                  <th>Quantidade</th>
+                  <th>Situação do Estoque</th>
+                  <th>Seção</th>
+                  <th>Preço de compra</th>
+                  <th>Preço de venda</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in product %}
+                <tr>
+                  <td>
+                    <input
+                      name="sell_products"
+                      value="{{p.id}}"
+                      type="checkbox"
+                    />
+                  </td>
+                  <td>{{p.id}}</td>
+                  <td>{{p.title}}</td>
+                  <td>{{p.size}}</td>
+                  <td>{{p.quantity}}</td>
+
+                  <td>_</td>
+                  <td>{{p.category}}</td>
+                  <td>{{p.purchase_price}}</td>
+                  <td>{{p.sale_price}}</td>
+                  <td>
+                    <a
+                      class="fa-solid fa-trash"
+                      href="{{url_for('blueprints.delete_product', id=p.id)}}"
+                    ></a>
+                    <a
+                      class="fa-solid fa-square-pen"
+                      href="{{url_for('blueprints.update_products', id=p.id)}}"
+                    ></a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="button-vender">
+            <button>Vender</button>
+          </div>
+        </form>
+      </main>
+    </section>
+  </body>
+</html>

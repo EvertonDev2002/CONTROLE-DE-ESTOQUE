@@ -1,0 +1,33 @@
+{% macro header(user) %}
+
+<header>
+    <!--   <img src="{{url_for('static', filename='#')}}" alt="Logo " /> -->
+    <span><a href="{{url_for('blueprints.list_products')}}">EdControle</a></span>
+    <div class="container-search">
+        <form action="{{url_for('blueprints.list_products')}}" method="GET">
+            <div>
+                <label class="fa-solid fa-magnifying-glass" for="search"></label>
+                <input type="text" name="search" id="search" placeholder="Pesquisar" />
+            </div>
+        </form>
+    </div>
+    <nav>
+        <li>
+            <span>{{user}}</span>
+            <ul>
+                <li>
+                    <a href="#">Configurações</a>
+                </li>
+                <li>
+                    <a href="{{url_for('blueprints.logout')}}">Sair</a>
+                </li>
+            </ul>
+        </li>
+        <span>
+            <a class="fa-solid fa-house-user" href="{{url_for('blueprints.list_products')}}"></a>
+        </span>
+    </nav>
+
+</header>
+
+{% endmacro %}

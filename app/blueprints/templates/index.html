@@ -1,0 +1,34 @@
+{% import "partials/head.html" as componets %}
+<!DOCTYPE html>
+<html>
+{{ componets.head("Página inicial", "index.css", "passwordText.js") }}
+
+<body>
+  <section>
+    <form action="{{url_for('blueprints.login')}}" method="POST">
+
+      <legend>EdControle</legend>
+      <div class="container-input">
+
+        <div class="fa-solid fa-user">
+          {{form.user}}
+        </div>
+        {% if form.errors.user %}
+        {{form.errors.user}}
+        {%endif%}
+        <div class="fa-solid fa-lock">
+          {{form.password}}
+          <span class="fa-solid fa-eye-slash" onclick="Password()"></span>
+        </div>
+
+      </div>
+
+      <div class="container-buttons">
+        {{form.sumbit}}
+      </div>
+      {{form.csrf_token}}
+    </form>
+  </section>
+</body>
+
+</html>

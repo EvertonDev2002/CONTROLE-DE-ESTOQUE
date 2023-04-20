@@ -1,0 +1,84 @@
+{% import "partials/head.html" as head %} {% import "partials/header.html" as
+header %}
+<!DOCTYPE html>
+<html>
+  {{ head.head("Cadastrar Produto", "insert_products.css") }}
+
+  <body>
+    <section>
+      {{ header.header(session['user']) }}
+      <main>
+        <form
+          action="{{url_for('blueprints.update_products', id=2)}}"
+          method="post"
+        >
+          <div>
+            <label for="title"></label>
+            <input
+              name="title"
+              id="title"
+              type="text"
+              value="{{product.title}}"
+            />
+          </div>
+          <div>
+            <label for="size"></label>
+            <input name="size" type="text" id="size" value="{{product.size}}" />
+          </div>
+
+          <div>
+            <label for="category"></label>
+            <input
+              name="category"
+              type="text"
+              id="category"
+              value="{{product.category}}"
+            />
+          </div>
+
+          <div>
+            <label for="quantity"></label>
+            <input
+              name="quantity"
+              type="text"
+              id="quantity"
+              value="{{product.quantity}}"
+            />
+          </div>
+
+          <div>
+            <label for="purchase_price"></label>
+            <input
+              name="purchase_price"
+              id="purchase_price"
+              type="text"
+              value="{{product.purchase_price}}"
+            />
+          </div>
+
+          <div>
+            <label for="price"></label>
+            <input
+              name="price"
+              type="text"
+              id="price"
+              value="{{product.sale_price}}"
+            />
+          </div>
+
+          <div>
+            <label for="description"></label>
+            <input
+              name="description"
+              type="text"
+              id="description"
+              value="{{product.description}}"
+            />
+          </div>
+
+          <button>CADASTRAR</button>
+        </form>
+      </main>
+    </section>
+  </body>
+</html>

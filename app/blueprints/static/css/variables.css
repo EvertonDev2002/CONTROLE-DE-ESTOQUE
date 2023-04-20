@@ -1,0 +1,21 @@
+:root {
+  /* Variáveis */
+
+  /* Cores primárias */
+  --primary-color-black: #000000;
+  --primary-color-background: #f3eff5;
+  --primary-color-white: #ffff;
+  --primary-color-interface: #2e282a;
+  --color-green: #23ce6b;
+  --color-links: rgb(33, 139, 215);
+  --color-links-hover: rgb(14, 112, 182);
+
+  /* Fontes */
+  /* --open-sans: 'Open Sans', sans-serif; */
+
+  /* 
+    #b80c09 
+    #0E9594
+    
+    */
+}
